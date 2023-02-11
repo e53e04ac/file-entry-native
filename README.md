@@ -5,8 +5,9 @@ npm install e53e04ac/file-entry-native
 ~~~~~
 
 ~~~~~ mjs
-import { FileEntryNative } from 'e53e04ac/file-entry-native';
-import { FileEntry } from 'e53e04ac/file-entry-native';
+import { type FileEntryNative } from 'e53e04ac/file-entry-native';
+import { const FileEntryNative } from 'e53e04ac/file-entry-native';
+import { const FileEntry } from 'e53e04ac/file-entry-native';
 ~~~~~
 
 ~~~~~ mermaid
@@ -24,84 +25,98 @@ graph RL;
   A ----> B_1;
   A ----> B_2;
   A ----> B_3;
-  click B_0 "https://github.com/e53e04ac/base/tree/2dc903faf7859d755dd52f7fde706be5170b9a6f";
-  click B_1 "https://github.com/e53e04ac/hold/tree/285d028e225a7e75747417c3ed6b1ca0d5f52f6a";
+  click B_0 "https://github.com/e53e04ac/base/tree/b45c2734e219419ebd59c99b026f593b813ba494";
+  click B_1 "https://github.com/e53e04ac/hold/tree/8fc3f6696d1c7ed6d184d90c5e33298cc9228991";
   click B_2 "https://www.npmjs.org/package/@types/node/v/18.13.0";
-  click B_3 "https://github.com/e53e04ac/file-entry/tree/54166105381939e5a1c4dee0af1f44705e5f44bc";
+  click B_3 "https://github.com/e53e04ac/file-entry/tree/bc4d7803552b302d1ec4baa19065b5efa6f94038";
 ~~~~~
 
 ~~~~~ mermaid
-graph LR;
-  A(["index.mjs"])
+graph RL;
+  subgraph "e53e04ac/file-entry-native";
+    E_0(["FileEntryNative"]);
+    E_1(["FileEntry"]);
+  end;
+  M(["index.mjs"])
   subgraph "node:fs";
-    B_0_0(["existsSync"]);
-    B_0_1(["mkdirSync"]);
-    B_0_2(["opendirSync"]);
-    B_0_3(["readFileSync"]);
-    B_0_4(["writeFileSync"]);
-    B_0_5(["unlinkSync"]);
+    I_0_0(["existsSync"]);
+    I_0_1(["mkdirSync"]);
+    I_0_2(["opendirSync"]);
+    I_0_3(["readFileSync"]);
+    I_0_4(["writeFileSync"]);
+    I_0_5(["unlinkSync"]);
   end;
   subgraph "node:fs/promises";
-    B_1_0(["access"]);
-    B_1_1(["copyFile"]);
-    B_1_2(["cp"]);
-    B_1_3(["mkdir"]);
-    B_1_4(["opendir"]);
-    B_1_5(["readFile"]);
-    B_1_6(["rm"]);
-    B_1_7(["writeFile"]);
-    B_1_8(["unlink"]);
+    I_1_0(["access"]);
+    I_1_1(["copyFile"]);
+    I_1_2(["cp"]);
+    I_1_3(["mkdir"]);
+    I_1_4(["opendir"]);
+    I_1_5(["readFile"]);
+    I_1_6(["rm"]);
+    I_1_7(["writeFile"]);
+    I_1_8(["unlink"]);
   end;
   subgraph "node:path";
-    B_2_0(["parse"]);
-    B_2_1(["relative"]);
-    B_2_2(["resolve"]);
+    I_2_0(["parse"]);
+    I_2_1(["relative"]);
+    I_2_2(["resolve"]);
   end;
   subgraph "base";
-    B_3_0(["Base"]);
+    I_3_0(["Base"]);
   end;
   subgraph "hold";
-    B_4_0(["hold"]);
-    B_4_1(["unwrap"]);
+    I_4_0(["hold"]);
+    I_4_1(["unwrap"]);
   end;
-  B_0_0 ----> A;
-  B_0_1 ----> A;
-  B_0_2 ----> A;
-  B_0_3 ----> A;
-  B_0_4 ----> A;
-  B_0_5 ----> A;
-  B_1_0 ----> A;
-  B_1_1 ----> A;
-  B_1_2 ----> A;
-  B_1_3 ----> A;
-  B_1_4 ----> A;
-  B_1_5 ----> A;
-  B_1_6 ----> A;
-  B_1_7 ----> A;
-  B_1_8 ----> A;
-  B_2_0 ----> A;
-  B_2_1 ----> A;
-  B_2_2 ----> A;
-  B_3_0 ----> A;
-  B_4_0 ----> A;
-  B_4_1 ----> A;
+  M ----> I_0_0;
+  M ----> I_0_1;
+  M ----> I_0_2;
+  M ----> I_0_3;
+  M ----> I_0_4;
+  M ----> I_0_5;
+  M ----> I_1_0;
+  M ----> I_1_1;
+  M ----> I_1_2;
+  M ----> I_1_3;
+  M ----> I_1_4;
+  M ----> I_1_5;
+  M ----> I_1_6;
+  M ----> I_1_7;
+  M ----> I_1_8;
+  M ----> I_2_0;
+  M ----> I_2_1;
+  M ----> I_2_2;
+  M ----> I_3_0;
+  M ----> I_4_0;
+  M ----> I_4_1;
+  E_0 ----> M;
+  E_1 ----> M;
 ~~~~~
 
 ~~~~~ mermaid
-graph LR;
-  A(["index.d.ts"])
+graph RL;
+  subgraph "e53e04ac/file-entry-native";
+    E_0(["type FileEntryNative"]);
+    E_1(["const FileEntryNative"]);
+    E_2(["const FileEntry"]);
+  end;
+  M(["index.d.ts"])
   subgraph "base";
-    B_0_0(["Base"]);
+    I_0_0(["Base"]);
   end;
   subgraph "file-entry";
-    B_1_0(["FileEntry"]);
+    I_1_0(["FileEntry"]);
   end;
   subgraph "hold";
-    B_2_0(["Get"]);
-    B_2_1(["ValueOrGet"]);
+    I_2_0(["Get"]);
+    I_2_1(["ValueOrGet"]);
   end;
-  B_0_0 ----> A;
-  B_1_0 ----> A;
-  B_2_0 ----> A;
-  B_2_1 ----> A;
+  M ----> I_0_0;
+  M ----> I_1_0;
+  M ----> I_2_0;
+  M ----> I_2_1;
+  E_0 ----> M;
+  E_1 ----> M;
+  E_2 ----> M;
 ~~~~~
