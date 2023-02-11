@@ -6,6 +6,7 @@
 
 import { existsSync as fsExistsSync } from 'node:fs';
 import { mkdirSync as fsMkdirSync } from 'node:fs';
+import { opendirSync as fsOpendirSync } from 'node:fs';
 import { readFileSync as fsReadFileSync } from 'node:fs';
 import { writeFileSync as fsWriteFileSync } from 'node:fs';
 import { unlinkSync as fsUnlinkSync } from 'node:fs';
@@ -13,6 +14,7 @@ import { access as fsAccess } from 'node:fs/promises';
 import { copyFile as fsCopyFile } from 'node:fs/promises';
 import { cp as fsCp } from 'node:fs/promises';
 import { mkdir as fsMkdir } from 'node:fs/promises';
+import { opendir as fsOpendir } from 'node:fs/promises';
 import { readFile as fsReadFile } from 'node:fs/promises';
 import { rm as fsRm } from 'node:fs/promises';
 import { writeFile as fsWriteFile } from 'node:fs/promises';
@@ -96,6 +98,67 @@ const constructor = ((options) => {
                 }
                 throw error;
             });
+        }),
+        children: (async function* (params) {
+            const depth = (params?.depth ?? Infinity);
+            const returnDirectories = (params?.returnDirectories ?? true);
+            const returnFiles = (params?.returnFiles ?? true);
+            if (depth > 0) {
+                const dir = await fsOpendir(self.path());
+                for await (const dirent of dir) {
+                    const child = constructor(pathResolve(dir.path, dirent.name));
+                    if (dirent.isDirectory()) {
+                        if (returnDirectories === true) {
+                            yield child;
+                        }
+                        yield* child.children({ depth: depth - 1, returnDirectories, returnFiles });
+                    }
+                    if (dirent.isFile()) {
+                        if (returnFiles === true) {
+                            yield child;
+                        }
+                    }
+                }
+            }
+        }),
+        directories: (async function* (params) {
+            yield* self.children({ ...params, returnDirectories: true, returnFiles: false });
+        }),
+        files: (async function* (params) {
+            yield* self.children({ ...params, returnDirectories: false, returnFiles: true });
+        }),
+        childrenSync: (function* (params) {
+            const depth = (params?.depth ?? Infinity);
+            const returnDirectories = (params?.returnDirectories ?? true);
+            const returnFiles = (params?.returnFiles ?? true);
+            if (depth > 0) {
+                const dir = fsOpendirSync(self.path());
+                while (true) {
+                    const dirent = dir.readSync();
+                    if (dirent == null) {
+                        break;
+                    }
+                    const child = constructor(pathResolve(dir.path, dirent.name));
+                    if (dirent.isDirectory()) {
+                        if (returnDirectories === true) {
+                            yield child;
+                        }
+                        yield* child.childrenSync({ depth: depth - 1, returnDirectories, returnFiles });
+                    }
+                    if (dirent.isFile()) {
+                        if (returnFiles === true) {
+                            yield child;
+                        }
+                    }
+                }
+                dir.closeSync();
+            }
+        }),
+        directoriesSync: (function* (params) {
+            yield* self.childrenSync({ ...params, returnDirectories: true, returnFiles: false });
+        }),
+        filesSync: (function* (params) {
+            yield* self.childrenSync({ ...params, returnDirectories: false, returnFiles: true });
         }),
         createDirectory: (async () => {
             await fsMkdir(self.path(), {
