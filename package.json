@@ -19,6 +19,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "base": "github:e53e04ac/base",
     "file-entry": "github:e53e04ac/file-entry",
