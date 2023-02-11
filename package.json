@@ -24,10 +24,10 @@
   },
   "dependencies": {
     "base": "github:e53e04ac/base",
-    "file-entry": "github:e53e04ac/file-entry",
     "hold": "github:e53e04ac/hold"
   },
   "devDependencies": {
-    "@types/node": "^18.11.19"
+    "@types/node": "^18.11.19",
+    "file-entry": "github:e53e04ac/file-entry"
   }
 }
