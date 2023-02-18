@@ -27,7 +27,7 @@ graph RL;
   click B_0 "https://github.com/e53e04ac/base/tree/421cea548a7a50b26a6ada01d1d17b9a013b847c";
   click B_1 "https://github.com/e53e04ac/hold/tree/3191dd4704f3e5f90d6c27f288ede7700f5fdb66";
   click B_2 "https://www.npmjs.com/package/@types/node/v/18.14.0";
-  click B_3 "https://github.com/e53e04ac/file-entry/tree/ff4014385a1ef89d9a215751f1cf116fd262becc";
+  click B_3 "https://github.com/e53e04ac/file-entry/tree/30eb1b02a1271b156b8d9e2dd16566abe19d407c";
 ~~~~~
 
 ~~~~~ mermaid
@@ -63,12 +63,15 @@ graph RL;
     I_2_1(["relative"]);
     I_2_2(["resolve"]);
   end;
+  subgraph "node:stream";
+    I_3_0(["Transform"]);
+  end;
   subgraph "base";
-    I_3_0(["Base"]);
+    I_4_0(["Base"]);
   end;
   subgraph "hold";
-    I_4_0(["hold"]);
-    I_4_1(["unwrap"]);
+    I_5_0(["hold"]);
+    I_5_1(["unwrap"]);
   end;
   M ----> I_0_0;
   M ----> I_0_1;
@@ -92,7 +95,8 @@ graph RL;
   M ----> I_2_2;
   M ----> I_3_0;
   M ----> I_4_0;
-  M ----> I_4_1;
+  M ----> I_5_0;
+  M ----> I_5_1;
   E_0 ----> M;
   E_1 ----> M;
 ~~~~~

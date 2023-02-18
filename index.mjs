@@ -24,6 +24,7 @@ import { unlink as fsUnlink } from 'node:fs/promises';
 import { parse as pathParse } from 'node:path';
 import { relative as pathRelative } from 'node:path';
 import { resolve as pathResolve } from 'node:path';
+import { Transform as StreamTransform } from 'node:stream';
 
 import { Base } from 'base';
 import { hold } from 'hold';
@@ -272,6 +273,24 @@ const constructor = ((options) => {
         createWriteStream: (async () => {
             await self.parent().createDirectory();
             return fsCreateWriteStream(self.path());
+        }),
+        createWriteLineStream: (async (options) => {
+            return await self.createWriteStream().then((writeStream) => {
+                const lineDelimiter = (options?.lineDelimiter ?? '\r\n');
+                return (new StreamTransform({
+                    writableObjectMode: true,
+                    readableObjectMode: false,
+                    encoding: options?.encoding,
+                    transform(chunk, encoding, callback) {
+                        this.push(chunk);
+                        this.push(lineDelimiter);
+                        callback();
+                    },
+                    final(callback) {
+                        callback();
+                    },
+                })).pipe(writeStream);
+            });
         }),
     });
 
