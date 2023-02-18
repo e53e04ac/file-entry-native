@@ -277,7 +277,7 @@ const constructor = ((options) => {
         createWriteLineStream: (async (options) => {
             return await self.createWriteStream().then((writeStream) => {
                 const lineDelimiter = (options?.lineDelimiter ?? '\r\n');
-                return (new StreamTransform({
+                const transform = new StreamTransform({
                     writableObjectMode: true,
                     readableObjectMode: false,
                     encoding: options?.encoding,
@@ -289,7 +289,9 @@ const constructor = ((options) => {
                     final(callback) {
                         callback();
                     },
-                })).pipe(writeStream);
+                });
+                transform.pipe(writeStream)
+                return transform;
             });
         }),
     });
