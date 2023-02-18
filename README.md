@@ -27,7 +27,7 @@ graph RL;
   click B_0 "https://github.com/e53e04ac/base/tree/421cea548a7a50b26a6ada01d1d17b9a013b847c";
   click B_1 "https://github.com/e53e04ac/hold/tree/3191dd4704f3e5f90d6c27f288ede7700f5fdb66";
   click B_2 "https://www.npmjs.com/package/@types/node/v/18.14.0";
-  click B_3 "https://github.com/e53e04ac/file-entry/tree/c972d64414ab71efd73ea068fd42583938be938c";
+  click B_3 "https://github.com/e53e04ac/file-entry/tree/ff4014385a1ef89d9a215751f1cf116fd262becc";
 ~~~~~
 
 ~~~~~ mermaid
@@ -38,12 +38,14 @@ graph RL;
   end;
   M(["index.mjs"])
   subgraph "node:fs";
-    I_0_0(["existsSync"]);
-    I_0_1(["mkdirSync"]);
-    I_0_2(["opendirSync"]);
-    I_0_3(["readFileSync"]);
-    I_0_4(["writeFileSync"]);
-    I_0_5(["unlinkSync"]);
+    I_0_0(["createReadStream"]);
+    I_0_1(["createWriteStream"]);
+    I_0_2(["existsSync"]);
+    I_0_3(["mkdirSync"]);
+    I_0_4(["opendirSync"]);
+    I_0_5(["readFileSync"]);
+    I_0_6(["writeFileSync"]);
+    I_0_7(["unlinkSync"]);
   end;
   subgraph "node:fs/promises";
     I_1_0(["access"]);
@@ -74,6 +76,8 @@ graph RL;
   M ----> I_0_3;
   M ----> I_0_4;
   M ----> I_0_5;
+  M ----> I_0_6;
+  M ----> I_0_7;
   M ----> I_1_0;
   M ----> I_1_1;
   M ----> I_1_2;

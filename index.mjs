@@ -4,6 +4,8 @@
     MIT License
 */
 
+import { createReadStream as fsCreateReadStream } from 'node:fs';
+import { createWriteStream as fsCreateWriteStream } from 'node:fs';
 import { existsSync as fsExistsSync } from 'node:fs';
 import { mkdirSync as fsMkdirSync } from 'node:fs';
 import { opendirSync as fsOpendirSync } from 'node:fs';
@@ -263,6 +265,13 @@ const constructor = ((options) => {
         }),
         readJsonSync: ((options) => {
             return JSON.parse(self.readStringSync({ encoding: options?.encoding }), options?.reviver);
+        }),
+        createReadStream: (async () => {
+            return fsCreateReadStream(self.path());
+        }),
+        createWriteStream: (async () => {
+            await self.parent().createDirectory();
+            return fsCreateWriteStream(self.path());
         }),
     });
 
