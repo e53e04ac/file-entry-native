@@ -29,7 +29,11 @@ export declare namespace FileEntryNative {
         (options: Options): Self;
     };
 
-    type Companion = Record<never, never>;
+    type Companion = {
+        readonly fromFileUrl: {
+            (fileUrl: string | URL): Self;
+        };
+    };
 
     type ConstructorWithCompanion = Constructor & Companion;
 

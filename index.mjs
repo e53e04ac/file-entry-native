@@ -24,7 +24,9 @@ import { unlink as fsUnlink } from 'node:fs/promises';
 import { parse as pathParse } from 'node:path';
 import { relative as pathRelative } from 'node:path';
 import { resolve as pathResolve } from 'node:path';
+import { sep as pathSep } from 'node:path';
 import { Transform as StreamTransform } from 'node:stream';
+import { fileURLToPath as urlFileURLToPath } from 'node:url';
 
 import { Base } from 'base';
 import { hold } from 'hold';
@@ -90,7 +92,7 @@ const constructor = ((options) => {
             return constructor(pathResolve(self.path(), ...paths));
         }),
         relative: ((destination) => {
-            return pathRelative(self.path(), destination.path());
+            return pathRelative(self.path(), destination.path()).replaceAll(pathSep, '/');
         }),
         exists: (async () => {
             return await fsAccess(self.path()).then(() => {
@@ -301,7 +303,11 @@ const constructor = ((options) => {
 });
 
 /** @type {import('.').FileEntryNative.Companion} */
-const companion = ({});
+const companion = ({
+    fromFileUrl: ((fileUrl) => {
+        return constructor(urlFileURLToPath(fileUrl));
+    }),
+});
 
 /** @type {import('.').FileEntryNative.ConstructorWithCompanion} */
 const constructorWithCompanion = Object.assign(constructor, companion);
