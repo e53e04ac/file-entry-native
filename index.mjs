@@ -108,15 +108,19 @@ const constructor = ((options) => {
             const depth = (params?.depth ?? Infinity);
             const returnDirectories = (params?.returnDirectories ?? true);
             const returnFiles = (params?.returnFiles ?? true);
+            const filter = (params?.filter ?? undefined);
             if (depth > 0) {
                 const dir = await fsOpendir(self.path());
                 for await (const dirent of dir) {
                     const child = constructor(pathResolve(dir.path, dirent.name));
                     if (dirent.isDirectory()) {
+                        if (filter != null && (await filter(child) === false)) {
+                            continue;
+                        }
                         if (returnDirectories === true) {
                             yield child;
                         }
-                        yield* child.children({ depth: depth - 1, returnDirectories, returnFiles });
+                        yield* child.children({ depth: depth - 1, returnDirectories, returnFiles, filter });
                     }
                     if (dirent.isFile()) {
                         if (returnFiles === true) {
@@ -136,6 +140,7 @@ const constructor = ((options) => {
             const depth = (params?.depth ?? Infinity);
             const returnDirectories = (params?.returnDirectories ?? true);
             const returnFiles = (params?.returnFiles ?? true);
+            const filter = (params?.filter ?? undefined);
             if (depth > 0) {
                 const dir = fsOpendirSync(self.path());
                 while (true) {
@@ -145,10 +150,13 @@ const constructor = ((options) => {
                     }
                     const child = constructor(pathResolve(dir.path, dirent.name));
                     if (dirent.isDirectory()) {
+                        if (filter != null && filter(child) === false) {
+                            continue;
+                        }
                         if (returnDirectories === true) {
                             yield child;
                         }
-                        yield* child.childrenSync({ depth: depth - 1, returnDirectories, returnFiles });
+                        yield* child.childrenSync({ depth: depth - 1, returnDirectories, returnFiles, filter });
                     }
                     if (dirent.isFile()) {
                         if (returnFiles === true) {
